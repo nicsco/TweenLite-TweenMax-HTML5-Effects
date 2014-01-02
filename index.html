@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="author" content="Nicola Scotti di Uccio - nicola_at_scottidiuccio.com">
+	<title></title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width">
+
+	<style>
+		body{
+			text-align:center;
+		}
+
+		.button {
+			border:5px solid black;
+			display:inline-block;
+			margin:50px 15px;
+			padding:12px;
+			position:relative;
+			cursor:pointer;
+			font-size:18px;
+		}
+
+		#demoText {
+			width:900px;
+			margin:100px auto;
+			overflow:visible;
+			text-align:center;
+			font-size:30px;
+		}
+
+		#demoText span {
+			position: relative;
+			display:inline-block;
+			-webkit-font-smoothing:antialiased;
+		}
+	</style>
+</head>
+
+<body>
+	<header>
+		<div class="button" id="animate1">Animation 1</div>
+		<div class="button" id="animate2">Animation 2</div>
+		<div class="button" id="animate3">Animation 3</div>
+	</header>
+
+	<div id="demoText">If Chuck Norris had performed in 300, the film would be called 1.</div>
+
+
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+	<script>
+
+	var $demoText = $("#demoText");
+
+	function reset(){
+		TweenMax.to( $('.button'), 1, {background:'#FFF'});
+	}
+
+	function animate1(){
+		var tweenTime = 2;
+		TweenMax.delayedCall(tweenTime, reset);
+		$demoText.find("span").each(function(){
+			var rand = Math.ceil(Math.random()*tweenTime*100)/100;
+			TweenMax.fromTo(this, tweenTime-rand, {autoAlpha:0, color:"black"}, {autoAlpha:1, color:"black", delay:rand});
+		});
+	}
+
+	function animate2(){
+		TweenMax.staggerFromTo( $demoText.find("span"), 0.4, {autoAlpha:0, scale:7}, {autoAlpha:1, scale:1}, 0.05, reset );
+	}
+
+	function animate3(){
+		TweenMax.staggerFromTo( $demoText.find("span"), 0.6, {autoAlpha:0, rotationX:-90, top:"-30px"}, {autoAlpha:1, rotationX:0, top:"0px"}, 0.05, reset );
+	}
+
+
+	$(function(){
+		$('.button').on("click", function(){
+			var anim = $( this ).attr("id");
+			TweenLite.set( this, {background:'#FFFF99'});
+			window[anim](this);
+		});
+
+		$demoText.html( $demoText.html().replace(/./g, "<span>$&</span>").replace(/\s/g, "&nbsp;"));
+	});
+
+</script>
+
+</body>
+</html>
